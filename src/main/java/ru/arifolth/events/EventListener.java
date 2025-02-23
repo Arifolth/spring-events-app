@@ -48,7 +48,7 @@ public abstract class EventListener<T extends Event> {
             // Runtime type check
             if (eventType.isInstance(event)) {
                 T typedEvent = eventType.cast(event);
-                logger.info("Event received: {}", typedEvent.getMessage());
+                logger.trace("Event received: {}", typedEvent.getMessage());
                 processEvent(typedEvent);
             }
         } catch (Exception e) {
