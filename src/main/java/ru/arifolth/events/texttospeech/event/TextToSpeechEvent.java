@@ -16,9 +16,9 @@
 
 package ru.arifolth.events.texttospeech.event;
 
-import ru.arifolth.events.AiEvent;
+import ru.arifolth.events.Event;
 
-public class TextToSpeechEvent extends AiEvent {
+public class TextToSpeechEvent extends Event {
     public TextToSpeechEvent(String message) {
         super(message);
     }

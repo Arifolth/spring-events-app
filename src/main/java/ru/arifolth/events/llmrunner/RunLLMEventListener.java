@@ -16,38 +16,20 @@
 
 package ru.arifolth.events.llmrunner;
 
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import ru.arifolth.events.llmrunner.event.RunLLMEvent;
 import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
 
 @Component
-public class RunLLMEventListener {
+public class RunLLMEventListener extends ru.arifolth.events.EventListener<RunLLMEvent>  {
     private static final Logger logger = LoggerFactory.getLogger(RunLLMEventListener.class);
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
+    @Override
+    protected void processEvent(RunLLMEvent event) {
+        logger.info("processEvent()");
 
-    @PostConstruct
-    public void init() {
-        logger.info("AiEventListener initialized");
-    }
-
-    @Async
-    @EventListener
-    public void onApplicationEvent(RunLLMEvent event) {
-        try {
-            logger.info("Event received: {}", event.getMessage());
-
-            publisher.publishEvent(new TextToSpeechEvent("test-data3"));
-        } catch (Exception e) {
-            logger.error("Failed to handle event", e);
-        }
+        publisher.publishEvent(new TextToSpeechEvent("test-data"));
     }
 }

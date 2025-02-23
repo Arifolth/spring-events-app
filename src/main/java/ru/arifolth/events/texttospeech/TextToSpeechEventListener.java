@@ -16,36 +16,18 @@
 
 package ru.arifolth.events.texttospeech;
 
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import ru.arifolth.events.speechtotext.event.SpeechToTextEvent;
 import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
 
 @Component
-public class TextToSpeechEventListener {
+public class TextToSpeechEventListener  extends ru.arifolth.events.EventListener<TextToSpeechEvent> {
     private static final Logger logger = LoggerFactory.getLogger(TextToSpeechEventListener.class);
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
+    @Override
+    protected void processEvent(TextToSpeechEvent event) {
+        logger.info("processEvent()");
 
-    @PostConstruct
-    public void init() {
-        logger.info("AiEventListener initialized");
-    }
-
-    @Async
-    @EventListener
-    public void onApplicationEvent(TextToSpeechEvent event) {
-        try {
-            logger.info("Event received: {}", event.getMessage());
-        } catch (Exception e) {
-            logger.error("Failed to handle event", e);
-        }
     }
 }

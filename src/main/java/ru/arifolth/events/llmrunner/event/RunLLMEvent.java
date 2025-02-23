@@ -16,9 +16,9 @@
 
 package ru.arifolth.events.llmrunner.event;
 
-import ru.arifolth.events.AiEvent;
+import ru.arifolth.events.Event;
 
-public class RunLLMEvent extends AiEvent {
+public class RunLLMEvent extends Event {
     public RunLLMEvent(String message) {
         super(message);
     }
