@@ -30,6 +30,6 @@ public class RunLLMEventListener extends ru.arifolth.events.EventListener<RunLLM
     protected void processEvent(RunLLMEvent event) {
         logger.info("processEvent()");
 
-        publisher.publishEvent(new TextToSpeechEvent("test-data"));
+        publisher.publishEvent(new TextToSpeechEvent("Say Capybara"));
     }
 }

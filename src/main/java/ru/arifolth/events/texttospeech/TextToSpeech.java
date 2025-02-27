@@ -16,20 +16,22 @@
 
 package ru.arifolth.events.texttospeech;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
 
-@Component
-public class TextToSpeechEventListener  extends ru.arifolth.events.EventListener<TextToSpeechEvent> {
-    private static final Logger logger = LoggerFactory.getLogger(TextToSpeechEventListener.class);
-    private TextToSpeech tts = new TextToSpeech();
+public class TextToSpeech {
+    private Voice voice;
 
-    @Override
-    protected void processEvent(TextToSpeechEvent event) {
-        logger.info("processEvent()");
+    public TextToSpeech(){
+        voice = VoiceManager.getInstance().getVoice("kevin16");
+        if (voice == null) {
+            throw new RuntimeException("Cannot find the 'kevin' voice.");
+        }
+        // This will not return until TTS has been quit
+        voice.allocate();
+    }
 
-        tts.speak(event.getMessage());
+    public void speak(String text){
+        voice.speak(text);
     }
 }
