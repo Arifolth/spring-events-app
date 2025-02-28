@@ -18,6 +18,7 @@ package ru.arifolth.events.llmrunner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.arifolth.events.llmrunner.event.RunLLMEvent;
 import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
@@ -25,11 +26,15 @@ import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
 @Component
 public class RunLLMEventListener extends ru.arifolth.events.EventListener<RunLLMEvent>  {
     private static final Logger logger = LoggerFactory.getLogger(RunLLMEventListener.class);
+    @Autowired
+    private LlamaRunnerComponent llamaRunnerComponent;
 
     @Override
     protected void processEvent(RunLLMEvent event) {
         logger.info("processEvent()");
 
-        publisher.publishEvent(new TextToSpeechEvent("Say Capybara"));
+        logger.info(event.getMessage());
+
+        publisher.publishEvent(new TextToSpeechEvent(llamaRunnerComponent.generateResponse(event.getMessage())));
     }
 }

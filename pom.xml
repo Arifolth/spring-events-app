@@ -85,6 +85,28 @@
       <version>1.2.2</version>
     </dependency>
     <!---->
+    <!--Speech To Text-->
+    <!-- VOSK Speech Recognition -->
+    <dependency>
+      <groupId>com.alphacephei</groupId>
+      <artifactId>vosk</artifactId>
+      <version>0.3.45</version>
+    </dependency>
+
+    <!-- JSON processing -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20231013</version>
+    </dependency>
+    <!---->
+    <!--LLM-->
+    <dependency>
+      <groupId>de.kherud</groupId>
+      <artifactId>llama</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <!---->
   </dependencies>
 
   <build>
@@ -124,6 +146,16 @@
       <id>jboss.org</id>
       <name>JBoss Repository</name>
       <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>snapshots-repo</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
 </project>

@@ -28,7 +28,7 @@ public class TextToSpeechEventListener  extends ru.arifolth.events.EventListener
 
     @Override
     protected void processEvent(TextToSpeechEvent event) {
-        logger.info("processEvent()");
+        logger.info("TTS processEvent()");
 
         tts.speak(event.getMessage());
     }
