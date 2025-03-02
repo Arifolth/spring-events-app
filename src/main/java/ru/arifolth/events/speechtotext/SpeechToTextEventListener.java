@@ -23,8 +23,6 @@ import org.springframework.stereotype.Component;
 import ru.arifolth.events.llmrunner.event.RunLLMEvent;
 import ru.arifolth.events.speechtotext.event.SpeechToTextEvent;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,6 +30,8 @@ import java.io.InputStream;
 public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener<SpeechToTextEvent> {
     private static final Logger logger = LoggerFactory.getLogger(SpeechToTextEventListener.class);
 
+    @Autowired
+    private AudioService audioService;
     @Autowired
     private VoskSpeechToText speechToText;
 
@@ -45,6 +45,10 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
         }
     }
 
+    public String transcribeAudio(InputStream audioStream) throws IOException {
+        return speechToText.decodeAudio(audioStream);
+    }
+
     @Override
     protected void processEvent(SpeechToTextEvent event) {
         logger.info("STT processEvent()");
@@ -53,14 +57,14 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
 //            String transcription = transcribeAudio("/test.wav");
             //ffmpeg -i ana-ttsfree\(dot\)com.mp3 -acodec pcm_s16le -ac 1 -ar 16000 ana-ttsfree\(dot\)com.wav
             //wave PCM Mono 16000Hz
-            String transcription = transcribeAudio("/ana-ttsfree(dot)com.wav");
+            InputStream audioStream = audioService.captureAudio(15000);
+            String transcription = transcribeAudio(audioStream);
 
+            logger.info("Transcription: " + transcription);
 
-            System.out.println("Transcription: " + transcription);
+            publisher.publishEvent(new RunLLMEvent(transcription));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        publisher.publishEvent(new RunLLMEvent("Invent a Fairy tale about Pettson and Findus, as would do the writer Sven Nordqvist in his new novell titled: How Pettson and Findus repaired their car"));
     }
 }

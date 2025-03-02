@@ -19,6 +19,7 @@ package ru.arifolth.events.texttospeech;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import ru.arifolth.events.speechtotext.event.SpeechToTextEvent;
 import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
 
 @Component
@@ -31,5 +32,7 @@ public class TextToSpeechEventListener  extends ru.arifolth.events.EventListener
         logger.info("TTS processEvent()");
 
         tts.speak(event.getMessage());
+
+        publisher.publishEvent(new SpeechToTextEvent(""));
     }
 }
