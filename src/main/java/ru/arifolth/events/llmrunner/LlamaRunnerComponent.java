@@ -5,22 +5,28 @@ import de.kherud.llama.LlamaModel;
 import de.kherud.llama.LlamaOutput;
 import de.kherud.llama.ModelParameters;
 import de.kherud.llama.args.MiroStat;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LlamaRunnerComponent {
+    @Value("${tinyllama.model.path}")
+    private String modelPath;
+
     private String promptDefault="<|system|>\r\n"
             + "<|user|>\r\n"
             + "{question} </s>\r\n"
             + "<|assistant|>";
     private LlamaModel llamaModel;
 
-    public LlamaRunnerComponent() {
+    @PostConstruct
+    public void init() {
         // Initialize the Llama model with your desired parameters
         ModelParameters params=new ModelParameters().setNThreads(2)
                 .setNCtx(0)
-                .setModelFilePath("tinyllama-1.1b-chat-v1.0.Q8_0.gguf");
+                .setModelFilePath(modelPath); //load tinyllama model from provided path
         this.llamaModel = new LlamaModel(params);
     }
 

@@ -21,12 +21,16 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import ru.arifolth.events.speechtotext.event.SpeechToTextEvent;
 
+import java.awt.*;
+
 @Component
 public class StarterEventPublisher {
     @Autowired
     private ApplicationEventPublisher publisher;
 
     public void publishCustomEvent() {
+        Toolkit.getDefaultToolkit().beep();
+
         publisher.publishEvent(new SpeechToTextEvent("test-data"));
     }
 }

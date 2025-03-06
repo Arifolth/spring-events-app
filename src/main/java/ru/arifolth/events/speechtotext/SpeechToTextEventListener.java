@@ -40,7 +40,7 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
 
     public String transcribeAudio(String audioFile) throws IOException {
         Class clazz = VoskSpeechToText.class;
-        try (InputStream audioStream = clazz.getResourceAsStream(audioFile);) {
+        try (InputStream audioStream = clazz.getResourceAsStream(audioFile)) {
             return speechToText.decodeAudio(audioStream);
         }
     }
