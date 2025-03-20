@@ -104,7 +104,7 @@
     <dependency>
       <groupId>de.kherud</groupId>
       <artifactId>llama</artifactId>
-      <version>3.2.1</version>
+      <version>4.0.0</version>
     </dependency>
     <!---->
   </dependencies>
