@@ -28,7 +28,7 @@ public class LlamaRunnerComponent {
     @PostConstruct
     public void init() {
         // Initialize the Llama model with your desired parameters
-        ModelParameters params=new ModelParameters().setThreads(6)
+        ModelParameters params=new ModelParameters().setThreads(2)
                 .setCtxSize(0)
                 .setModel(modelPath); //load tinyllama model from provided path
         this.llamaModel = new LlamaModel(params);
@@ -38,7 +38,7 @@ public class LlamaRunnerComponent {
         StringBuilder response  = new StringBuilder();
 
         String prompt = promptDefault
-                .replace("{question}", question);
+                .replace("{question}", "Translate into English from Russian: " + question);
         String listAntiprompt="</s>,<|im_end|>,User:";
 
         InferenceParameters inferParams=new InferenceParameters(prompt)
@@ -48,12 +48,12 @@ public class LlamaRunnerComponent {
                 .setStopStrings(listAntiprompt.split("[,]"));
 
         for(LlamaOutput output: llamaModel.generate(inferParams))	{
-            LOGGER.info(output.toString());
+            System.out.print(output.toString());
 
             response.append(output.toString());
         }
         //Add line separator
-        LOGGER.info(System.lineSeparator());
+        System.out.print(System.lineSeparator());
 
         return response.toString();
     }
