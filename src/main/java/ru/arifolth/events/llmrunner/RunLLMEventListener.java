@@ -25,15 +25,15 @@ import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
 
 @Component
 public class RunLLMEventListener extends ru.arifolth.events.EventListener<RunLLMEvent>  {
-    private static final Logger logger = LoggerFactory.getLogger(RunLLMEventListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RunLLMEventListener.class);
     @Autowired
     private LlamaRunnerComponent llamaRunnerComponent;
 
     @Override
     protected void processEvent(RunLLMEvent event) {
-        logger.info("processEvent()");
+        LOGGER.info("processEvent()");
 
-        logger.info(event.getMessage());
+        LOGGER.info(event.getMessage());
 
         publisher.publishEvent(new TextToSpeechEvent(llamaRunnerComponent.generateResponse(event.getMessage())));
     }

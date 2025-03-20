@@ -28,7 +28,7 @@ import java.io.InputStream;
 
 @Component
 public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener<SpeechToTextEvent> {
-    private static final Logger logger = LoggerFactory.getLogger(SpeechToTextEventListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpeechToTextEventListener.class);
 
     @Autowired
     private AudioService audioService;
@@ -51,7 +51,7 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
 
     @Override
     protected void processEvent(SpeechToTextEvent event) {
-        logger.info("STT processEvent()");
+        LOGGER.info("STT processEvent()");
 
         try {
 //            String transcription = transcribeAudio("/test.wav");
@@ -60,7 +60,7 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
             InputStream audioStream = audioService.captureAudio(15000);
             String transcription = transcribeAudio(audioStream);
 
-            logger.info("Transcription: " + transcription);
+            LOGGER.info("Transcription: " + transcription);
 
             publisher.publishEvent(new RunLLMEvent(transcription));
         } catch (IOException e) {

@@ -24,12 +24,12 @@ import ru.arifolth.events.texttospeech.event.TextToSpeechEvent;
 
 @Component
 public class TextToSpeechEventListener  extends ru.arifolth.events.EventListener<TextToSpeechEvent> {
-    private static final Logger logger = LoggerFactory.getLogger(TextToSpeechEventListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TextToSpeechEventListener.class);
     private TextToSpeech tts = new TextToSpeech();
 
     @Override
     protected void processEvent(TextToSpeechEvent event) {
-        logger.info("TTS processEvent()");
+        LOGGER.info("TTS processEvent()");
 
         tts.speak(event.getMessage());
 

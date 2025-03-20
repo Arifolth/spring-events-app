@@ -3,16 +3,20 @@ package ru.arifolth.events.speechtotext;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.vosk.Model;
 import org.vosk.Recognizer;
+import ru.arifolth.events.llmrunner.RunLLMEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @Component
 public class VoskSpeechToText {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VoskSpeechToText.class);
 
     private Model model;
     private Recognizer recognizer;

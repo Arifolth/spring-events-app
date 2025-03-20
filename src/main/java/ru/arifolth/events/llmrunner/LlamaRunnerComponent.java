@@ -7,11 +7,15 @@ import de.kherud.llama.ModelParameters;
 import de.kherud.llama.args.MiroStat;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LlamaRunnerComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LlamaRunnerComponent.class);
+
     @Value("${tinyllama.model.path}")
     private String modelPath;
 
@@ -24,9 +28,9 @@ public class LlamaRunnerComponent {
     @PostConstruct
     public void init() {
         // Initialize the Llama model with your desired parameters
-        ModelParameters params=new ModelParameters().setNThreads(2)
-                .setNCtx(0)
-                .setModelFilePath(modelPath); //load tinyllama model from provided path
+        ModelParameters params=new ModelParameters().setThreads(6)
+                .setCtxSize(0)
+                .setModel(modelPath); //load tinyllama model from provided path
         this.llamaModel = new LlamaModel(params);
     }
 
@@ -38,18 +42,18 @@ public class LlamaRunnerComponent {
         String listAntiprompt="</s>,<|im_end|>,User:";
 
         InferenceParameters inferParams=new InferenceParameters(prompt)
-                .setTemperature(0.8f)
+                .setTemperature(1.0f)
                 .setFrequencyPenalty(0.2F)
                 .setMiroStat(MiroStat.V2)
                 .setStopStrings(listAntiprompt.split("[,]"));
 
         for(LlamaOutput output: llamaModel.generate(inferParams))	{
-            System.out.print(output.toString());
+            LOGGER.info(output.toString());
 
             response.append(output.toString());
         }
         //Add line separator
-        System.out.print(System.lineSeparator());
+        LOGGER.info(System.lineSeparator());
 
         return response.toString();
     }

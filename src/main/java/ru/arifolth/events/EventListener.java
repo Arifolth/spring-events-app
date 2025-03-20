@@ -26,7 +26,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public abstract class EventListener<T extends Event> {
-    private static final Logger logger = LoggerFactory.getLogger(EventListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventListener.class);
     private Class<T> eventType;
 
     @Autowired
@@ -38,7 +38,7 @@ public abstract class EventListener<T extends Event> {
         Type type = getClass().getGenericSuperclass();
         ParameterizedType paramType = (ParameterizedType) type;
         this.eventType = (Class<T>) paramType.getActualTypeArguments()[0];
-        logger.info("EventListener initialized for {}", eventType.getSimpleName());
+        LOGGER.info("EventListener initialized for {}", eventType.getSimpleName());
     }
 
     @Async
@@ -48,11 +48,11 @@ public abstract class EventListener<T extends Event> {
             // Runtime type check
             if (eventType.isInstance(event)) {
                 T typedEvent = eventType.cast(event);
-                logger.trace("Event received: {}", typedEvent.getMessage());
+                LOGGER.trace("Event received: {}", typedEvent.getMessage());
                 processEvent(typedEvent);
             }
         } catch (Exception e) {
-            logger.error("Failed to handle event", e);
+            LOGGER.error("Failed to handle event", e);
         }
     }
 
