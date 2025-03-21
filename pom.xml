@@ -7,7 +7,7 @@
   <groupId>ru.arifolth.events</groupId>
   <artifactId>spring-events-app</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>Spring Events Application</name>
   <description>Demo project for Spring Application Events</description>
@@ -25,99 +25,19 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.main.class>ru.arifolth.events.SpringEventsApplication</java.main.class>
   </properties>
 
-  <dependencies>
-    <!-- Spring Boot Starter for Core Spring Functionality -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
 
-    <!-- Spring Boot Starter for Logging -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-logging</artifactId>
-    </dependency>
-
-    <!-- (Optional) Spring Boot Starter for Testing -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!--TTS-->
-    <!-- FreeTTS library for text-to-speech conversion -->
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>freetts</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>en_us</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>cmu_us_kal</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>cmu_time_awb</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>cmulex</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>cmutimelex</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mobicents.external.freetts</groupId>
-      <artifactId>cmudict04</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <!---->
-    <!--Speech To Text-->
-    <!-- VOSK Speech Recognition -->
-    <dependency>
-      <groupId>com.alphacephei</groupId>
-      <artifactId>vosk</artifactId>
-      <version>0.3.45</version>
-    </dependency>
-
-    <!-- JSON processing -->
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20231013</version>
-    </dependency>
-    <!---->
-    <!--LLM-->
-    <dependency>
-      <groupId>de.kherud</groupId>
-      <artifactId>llama</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <!---->
-  </dependencies>
+  <modules>
+    <module>Libraries</module>
+    <module>Common</module>
+    <module>Application</module>
+    <module>Modules</module>
+  </modules>
 
   <build>
     <plugins>
-      <!-- Spring Boot Maven Plugin -->
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>3.4.3</version> <!-- Use the same version as parent -->
-      </plugin>
-
       <!-- Maven Compiler Plugin -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -141,21 +61,4 @@
   </licenses>
 
 
-  <repositories>
-    <repository>
-      <id>jboss.org</id>
-      <name>JBoss Repository</name>
-      <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-    </repository>
-    <repository>
-      <id>snapshots-repo</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>
