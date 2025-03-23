@@ -1,4 +1,7 @@
-AI Agents chaining done through loose coupled Event-based Chain-Of-Responsibility 
+### Summary
+AI Agents chaining done through loose coupled Event-based Chain-Of-Responsibility
+
+Agents are supposed to capture user's speech request, convert it to text, fulfill request using generative AI LLM, and after that transform generated Text To Speech.
 
 ### Setup
 #### Speech To Text Model
