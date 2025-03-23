@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.arifolth.events.components.IGenerativeAi;
 import ru.arifolth.events.event.RunLLMEvent;
 import ru.arifolth.events.event.TextToSpeechEvent;
 
@@ -27,7 +28,7 @@ import ru.arifolth.events.event.TextToSpeechEvent;
 public class RunLLMEventListener extends ru.arifolth.events.EventListener<RunLLMEvent>  {
     private static final Logger LOGGER = LoggerFactory.getLogger(RunLLMEventListener.class);
     @Autowired
-    private LlamaRunnerComponent llamaRunnerComponent;
+    private IGenerativeAi ILlmRunner;
 
     @Override
     protected void processEvent(RunLLMEvent event) {
@@ -35,6 +36,6 @@ public class RunLLMEventListener extends ru.arifolth.events.EventListener<RunLLM
 
         LOGGER.info(event.getMessage());
 
-        publisher.publishEvent(new TextToSpeechEvent(llamaRunnerComponent.generateResponse(event.getMessage())));
+        publisher.publishEvent(new TextToSpeechEvent(ILlmRunner.generateResponse(event.getMessage())));
     }
 }

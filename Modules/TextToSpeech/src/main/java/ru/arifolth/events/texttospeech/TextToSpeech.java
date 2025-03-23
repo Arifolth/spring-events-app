@@ -18,8 +18,9 @@ package ru.arifolth.events.texttospeech;
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
+import ru.arifolth.events.components.ITextToSpeech;
 
-public class TextToSpeech {
+public class TextToSpeech implements ITextToSpeech {
     private Voice voice;
 
     public TextToSpeech(){
@@ -31,6 +32,7 @@ public class TextToSpeech {
         voice.allocate();
     }
 
+    @Override
     public void speak(String text){
         voice.speak(text);
     }

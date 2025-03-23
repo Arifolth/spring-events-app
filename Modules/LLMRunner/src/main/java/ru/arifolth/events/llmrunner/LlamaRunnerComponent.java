@@ -11,29 +11,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.arifolth.events.components.IGenerativeAi;
 
 @Component
-public class LlamaRunnerComponent {
+public class LlamaRunnerComponent implements IGenerativeAi {
     private static final Logger LOGGER = LoggerFactory.getLogger(LlamaRunnerComponent.class);
 
     @Value("${tinyllama.model.path}")
     private String modelPath;
 
+    /*
+    *
+    System Part (<|system|>): Contains instructions, guidelines, or context for the assistant's behavior.
+    User Part (<|user|>): Contains the user's input or question.
+    Assistant Part (<|assistant|>): Reserved for the assistant's response, which is generated based on the system and user inputs.
+    * */
     private String promptDefault="<|system|>\r\n"
             + "<|user|>\r\n"
             + "{question} </s>\r\n"
             + "<|assistant|>";
     private LlamaModel llamaModel;
 
+    @Override
     @PostConstruct
     public void init() {
         // Initialize the Llama model with your desired parameters
-        ModelParameters params=new ModelParameters().setThreads(4)
+        ModelParameters params=new ModelParameters().setThreads(6)
                 .setCtxSize(0)
                 .setModel(modelPath); //load tinyllama model from provided path
         this.llamaModel = new LlamaModel(params);
     }
 
+    @Override
     public String generateResponse(String question) {
         StringBuilder response  = new StringBuilder();
 

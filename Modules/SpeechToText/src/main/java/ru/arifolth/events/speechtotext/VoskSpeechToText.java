@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.vosk.Model;
 import org.vosk.Recognizer;
+import ru.arifolth.events.components.ISpeechToText;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @Component
-public class VoskSpeechToText {
+public class VoskSpeechToText implements ISpeechToText {
     private static final Logger LOGGER = LoggerFactory.getLogger(VoskSpeechToText.class);
 
     private Model model;
@@ -26,6 +27,7 @@ public class VoskSpeechToText {
     @Value("${vosk.sample.rate:16000}")
     private float sampleRate;
 
+    @Override
     @PostConstruct
     public void init() throws IOException {
         // Load VOSK model from configured path
@@ -34,6 +36,7 @@ public class VoskSpeechToText {
         recognizer = new Recognizer(model, sampleRate);
     }
 
+    @Override
     public String decodeAudio(InputStream audioStream) throws IOException {
         byte[] buffer = new byte[4096];
         int bytesRead;
