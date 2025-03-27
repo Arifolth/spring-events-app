@@ -67,7 +67,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.4.3</version> <!-- Use the same version as parent -->
                 <configuration>
-                    <mainClass>ru.arifolth.events.SpringEventsApplication</mainClass>
+                    <mainClass>ru.arifolth.events.application.SpringEventsApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

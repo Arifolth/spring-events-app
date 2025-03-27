@@ -20,4 +20,4 @@ Put GGUF file under ./models/ folder and provide path in [application.properties
 `mvn clean package`
 
 ### Run
-`mvn spring-boot:run`
+`mvn -pl application spring-boot:run`
