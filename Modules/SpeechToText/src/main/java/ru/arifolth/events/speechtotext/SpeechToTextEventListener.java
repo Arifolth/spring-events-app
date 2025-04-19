@@ -16,6 +16,7 @@
 
 package ru.arifolth.events.speechtotext;
 
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +39,14 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
     public SpeechToTextEventListener() throws IOException {
     }
 
-    public String transcribeAudio(String audioFile) throws IOException {
+    public String transcribeAudio(String audioFile) throws IOException, JSONException {
         Class clazz = VoskSpeechToText.class;
         try (InputStream audioStream = clazz.getResourceAsStream(audioFile)) {
             return speechToText.decodeAudio(audioStream);
         }
     }
 
-    public String transcribeAudio(InputStream audioStream) throws IOException {
+    public String transcribeAudio(InputStream audioStream) throws IOException, JSONException {
         return speechToText.decodeAudio(audioStream);
     }
 
@@ -63,7 +64,7 @@ public class SpeechToTextEventListener  extends ru.arifolth.events.EventListener
             LOGGER.info("Transcription: " + transcription);
 
             publisher.publishEvent(new RunLLMEvent(transcription));
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }

@@ -22,7 +22,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-//@SpringBootApplication(scanBasePackages = "ru.arifolth.events")
 @SpringBootApplication
 @ComponentScan(basePackages = "ru.arifolth.events")
 public class SpringEventsApplication implements CommandLineRunner {
