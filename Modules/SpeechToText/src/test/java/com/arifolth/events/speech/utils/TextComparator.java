@@ -16,58 +16,21 @@
 
 package com.arifolth.events.speech.utils;
 
-import java.io.IOException;
-import java.util.List;
+import org.apache.commons.text.similarity.LevenshteinDistance;
+
 
 public class TextComparator {
-    private SpellingErrorDetector detector;
-    private float accuracyThreshold;
-
-    /**
-     * Constructor that initializes the comparator with a specified accuracy threshold.
-     *
-     * @param accuracyThreshold The accuracy threshold (0.0 to 1.0).
-     */
-    public TextComparator(float accuracyThreshold) {
-        this.accuracyThreshold = accuracyThreshold;
-        // Initialize the SpellingErrorDetector with the same accuracy as the threshold
-        this.detector = new SpellingErrorDetector(accuracyThreshold);
+    private TextComparator() {
     }
 
-    /**
-     * Compares the error rates of two texts based on the specified accuracy threshold.
-     *
-     * @param text1 The first text to compare.
-     * @param text2 The second text to compare.
-     * @return True if the error rate difference is within the accuracy threshold, else false.
-     */
-    public boolean compareTexts(String text1, String text2) {
-        // Build the custom dictionary from text1
-        detector.buildCustomDictionary(text1);
+    public static double similarityPercentage(String str1, String str2) {
+        int maxLen = Math.max(str1.length(), str2.length());
+        if (maxLen == 0)
+            return 100.0; // Both strings are empty
 
-        // Get errors in text1
-        List<String> errors1 = detector.getSpellingErrors(text1);
-        int totalWords1 = TextPreprocessor.countWords(text1);
-        float errorRate1 = (float) errors1.size() / totalWords1;
+        LevenshteinDistance levenshtein = new LevenshteinDistance();
+        int distance = levenshtein.apply(str1, str2);
 
-        // Get errors in text2
-        List<String> errors2 = detector.getSpellingErrors(text2);
-        int totalWords2 = TextPreprocessor.countWords(text2);
-        float errorRate2 = (float) errors2.size() / totalWords2;
-
-        // Calculate the difference in error rates
-        float errorDifference = Math.abs(errorRate1 - errorRate2);
-
-        // Compare with the accuracy threshold
-        return errorDifference <= accuracyThreshold;
-    }
-
-    /**
-     * Closes the spell checker and releases resources.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public void close() throws IOException {
-        detector.close();
+        return (1.0 - (double) distance / maxLen) * 100.0;
     }
 }

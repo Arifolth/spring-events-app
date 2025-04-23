@@ -16,30 +16,16 @@
 
 package com.arifolth.events.speech.utils;
 
-import java.io.IOException;
-import java.util.List;
-
 public class Main {
+
+
     public static void main(String[] args) {
-        TextComparator comparator = new TextComparator(0.15f);
         String text1 = "Pettson is an old farmer who lives in a ramshackle falu red-painted wooden farmhouse in the Swedish countryside...";
-        String text2 = "pattison is an old farmer who lives in a ramshackle falling red painted wooden farmhouse in the swedish countryside...";
+        String text2 = "";
 
-        // Compare the texts
-        boolean areSimilar = comparator.compareTexts(text1, text2);
 
-        // Output the result
-        System.out.println("Are the texts similar based on the accuracy threshold? " + areSimilar);
+        double similarity = TextComparator.similarityPercentage(text1, text2);
+        System.out.printf("Similarity: %.2f%%\n", similarity);
 
-        /*
-        Spelling Errors in Text 1: []
-        Spelling Errors in Text 2: [pattison, falling]
-        */
-
-        try {
-            comparator.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

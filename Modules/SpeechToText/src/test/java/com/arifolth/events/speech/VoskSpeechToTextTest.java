@@ -50,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         locations = "classpath:application-test.properties")
 public class VoskSpeechToTextTest {
     private static final Logger logger = LoggerFactory.getLogger(VoskSpeechToTextTest.class);
+    public static final double SIMILARITY_TRESHOLD = 87.5d;
 
     @Autowired
     private FileContentLoader fileContentLoader;
@@ -76,14 +77,12 @@ public class VoskSpeechToTextTest {
 
     @Test
     void testDecodeAudio_validInput() throws IOException, org.json.JSONException {
-        TextComparator comparator = new TextComparator(0.15f);
-
         String result = voskSpeechToText.decodeAudio(audioStream);
         assertNotNull(result);
         logger.info(result);
-        boolean areSimilar = comparator.compareTexts(fileContentLoader.getFileContent(), result);
-
-        assertTrue(areSimilar);
+        double similarityPercentage = TextComparator.similarityPercentage(fileContentLoader.getFileContent(), result);
+        logger.info(String.format("Similarity: %.2f%%", similarityPercentage));
+        assertTrue(similarityPercentage > SIMILARITY_TRESHOLD);
     }
 
     @Test
