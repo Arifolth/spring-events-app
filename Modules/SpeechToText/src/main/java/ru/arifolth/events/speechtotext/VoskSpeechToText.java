@@ -24,16 +24,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.vosk.LibVosk;
+import org.vosk.LogLevel;
 import org.vosk.Model;
 import org.vosk.Recognizer;
 import ru.arifolth.events.components.ISpeechToText;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 @Component
 public class VoskSpeechToText implements ISpeechToText {
     private static final Logger LOGGER = LoggerFactory.getLogger(VoskSpeechToText.class);
+    public static final String EMPTY_STRING = "";
 
     private Model model;
     private Recognizer recognizer;
@@ -47,6 +51,7 @@ public class VoskSpeechToText implements ISpeechToText {
     @Override
     @PostConstruct
     public void init() throws IOException {
+        LibVosk.setLogLevel(LogLevel.INFO);
         // Load VOSK model from configured path
         model = new Model(modelPath);
         // Create recognizer with specified sample rate
@@ -72,13 +77,13 @@ public class VoskSpeechToText implements ISpeechToText {
 
     @Override
     public String decodeAudio(InputStream audioStream) throws IOException, JSONException {
+        if (!isValidInputStream(audioStream))
+            return EMPTY_STRING;
+
+        audioStream = new BufferedInputStream(audioStream);
         byte[] buffer = new byte[4096];
         int bytesRead;
 
-        if (!isValidInputStream(audioStream)) {
-            // Handle invalid InputStream
-            return "";
-        }
         // Process audio stream in chunks
         while ((bytesRead = audioStream.read(buffer)) >= 0) {
             if (bytesRead > 0) {

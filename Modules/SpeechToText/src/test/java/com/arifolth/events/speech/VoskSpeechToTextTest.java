@@ -25,13 +25,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.arifolth.events.speechtotext.AudioService;
 import ru.arifolth.events.speechtotext.VoskSpeechToText;
 
 import java.io.ByteArrayInputStream;
@@ -40,7 +37,6 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @ExtendWith(SpringExtension.class)
@@ -94,16 +90,10 @@ public class VoskSpeechToTextTest {
     }
 
     @Test
-    void testDecodeAudio_invalidJson() throws IOException, org.json.JSONException {
-        // Simulate a scenario where Vosk returns invalid JSON (e.g., by modifying the recognizer's behavior - difficult to do directly)
-        // This is more of an integration/system test than a pure unit test, but it's important.
-
-        try (InputStream corruptedStream = new ByteArrayInputStream(new byte[0])) { //Dummy stream for now
-            String result = voskSpeechToText.decodeAudio(corruptedStream);
-            assertEquals("",result);
-        }
+    void testDecodeAudio_nullInputStream() throws IOException {
+        String result = voskSpeechToText.decodeAudio(null);
+        assertEquals("", result); // Expect an empty string if the input is null
     }
-
 
     @Test
     @Order(Integer.MAX_VALUE)
